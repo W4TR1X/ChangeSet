@@ -1,0 +1,23 @@
+[
+  {
+    "parameter": "version",
+    "changer": {
+      "type": "from-to",
+      "from": "<ApplicationVersion>",
+      "to": "</ApplicationVersion>"
+    },
+    "filters": [
+      "*.csproj"
+    ]
+  },
+  {
+    "parameter": "buildNumber",
+    "changer": {
+      "type": "replace",
+      "find": "local:build"
+    },
+    "filters": [
+      "*.csproj"
+    ]
+  }
+]
