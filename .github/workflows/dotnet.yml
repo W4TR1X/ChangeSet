@@ -27,11 +27,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-  publish:
-
-    runs-on: ubuntu-latest
-  
-    steps:
-    - name: Dotnet Publish
-      uses: EasyDesk/action-dotnet-publish@v1.0.0
+    
       
