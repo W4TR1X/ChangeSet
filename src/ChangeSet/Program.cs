@@ -7,6 +7,8 @@ public sealed class Program
         var path = parseParameter(args.FirstOrDefault(x => x.StartsWith("-path="))).Value
             ?? Environment.ProcessPath;
 
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(path, nameof(path));
+
         var configPath = parseParameter(args.FirstOrDefault(x => x.StartsWith("-config="))).Value
             ?? "changeset.config.json";
 
