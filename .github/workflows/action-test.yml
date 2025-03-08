@@ -5,7 +5,7 @@ on:
 
 jobs:
   job:
-    runs-on: docker
+    runs-on: ubuntu-latest
     steps:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3.3.1
