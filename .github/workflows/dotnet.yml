@@ -57,7 +57,8 @@ jobs:
         run: dotnet tool install --global PowerShell
           
       - name: PowerShell script
-        run: pwsh -File ${{ matrix.script }}
+        shell: pwsh
+        run: pwsh -File ${{ matrix.script }} -Passthru
 
       # Just a todo for now
       - name: GitHub Push
