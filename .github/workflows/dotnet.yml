@@ -48,7 +48,7 @@ jobs:
           dotnet-version: 9.0.200
 
       - name: Fix file content
-        if: matrix.os=="ubuntu-latest"
+        if: matrix.os=='ubuntu-latest'
         run: sed -i 's/\r//g' ${{ matrix.script }}
           
       - name: PowerShell script
