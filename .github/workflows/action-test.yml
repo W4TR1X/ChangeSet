@@ -1,0 +1,18 @@
+name: Action Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job:
+    runs-on: docker
+    steps:
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3.3.1
+        with:
+          dotnet-version: 9.0.200
+              
+      - name: ChangeSet GitHub Action
+        uses: W4TR1X/W4tr1x.ChangeSet@v0.3.0-alpha
+
+    
