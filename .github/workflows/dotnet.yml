@@ -50,11 +50,12 @@ jobs:
       - name: Fix file content
         if: matrix.os=='ubuntu-latest'
         run: sed -i 's/\r//g' ${{ matrix.script }}
+
+      - name: Install PowerShell
+        run: dotnet tool install --global PowerShell
           
       - name: PowerShell script
-        uses: Amadevus/pwsh-script@v2.0.3
-        with:
-          script: pwsh -File ${{ matrix.script }}
+        run: pwsh -File ${{ matrix.script }}
 
       # Just a todo for now
       - name: GitHub Push
