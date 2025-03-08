@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -28,6 +26,42 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
+  
+  generate_binaries:
+    strategy:
+      matrix:
+        include:
+          - os: "windows-latest"
+            script: "build-windows.ps1"
+            output: "./dist/win-x64"
+          - os: "ubuntu-latest"
+            script: "build-linux.ps1"
+            output: "./dist/linux-x64"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    
-      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.200
+
+      - name: Fix file content
+        if: matrix.os=="ubuntu-latest"
+        run: sed -i 's/\r//g' ${{ matrix.script }}
+          
+      - name: PowerShell script
+        uses: Amadevus/pwsh-script@v2.0.3
+        with:
+          script: pwsh -File ${{ matrix.script }}
+
+      # Just a todo for now
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          # Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}
+          # github_token:
+          force: true
+          directory: ${{ matrix.output }}
+          
