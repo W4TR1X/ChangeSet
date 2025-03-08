@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ChangeSet": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
