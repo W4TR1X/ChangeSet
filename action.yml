@@ -1,6 +1,9 @@
 name: 'ChangeSet GitHub Action'
 description: 'A tool for make changes to file contents'
 author: 'W4TR1X'
+branding:
+  icon: activity
+  color: orange
 inputs:
   dir:
     description:
