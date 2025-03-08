@@ -21,7 +21,7 @@ outputs:
       'The summary of action.'
 runs:
   using: 'docker'
-  image: '/src/ChangeSet/Dockerfile'
+  image: './src/ChangeSet/Dockerfile'
   args:
   - '-path=${{ inputs.dir }}'
   - '-config=${{ inputs.config }}'
