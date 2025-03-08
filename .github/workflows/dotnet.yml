@@ -27,7 +27,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
   
-  generate_binaries:
+  binaries:
     needs: build
     timeout-minutes: 10    
     strategy:
@@ -62,12 +62,10 @@ jobs:
         shell: pwsh
         run: pwsh -File ${{ matrix.script }} -Passthru
 
-      # Just a todo for now
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
         with:
-          # Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}
-          # github_token:
+          github_token: ${{ secrets.GH_TOKEN }}
           force: true
           directory: ${{ matrix.output }}
           
