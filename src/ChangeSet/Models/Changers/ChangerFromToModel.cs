@@ -5,8 +5,8 @@ internal sealed class ChangerFromToModel : ChangerBaseModel
     public const string ChangerType = "from-to";
 
     [JsonPropertyName("from")]
-    public string From { get; set; }
+    public required string From { get; set; }
 
     [JsonPropertyName("to")]
-    public string To { get; set; }
+    public required string To { get; set; }
 }

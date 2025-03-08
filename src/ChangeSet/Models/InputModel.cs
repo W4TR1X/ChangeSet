@@ -19,11 +19,11 @@ internal interface IInputModel
 internal sealed class InputModel : IInputModel
 {
     [JsonPropertyName("parameter")]
-    public string Parameter { get; set; }
+    public required string Parameter { get; set; }
 
     [JsonPropertyName("changer")]
-    public ChangerBaseModel Changer { get; set; }
+    public required ChangerBaseModel Changer { get; set; }
 
     [JsonPropertyName("filters")]
-    public string[] Filters { get; set; }
+    public required string[] Filters { get; set; }
 }

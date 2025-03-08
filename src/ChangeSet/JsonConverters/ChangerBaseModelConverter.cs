@@ -49,13 +49,13 @@ internal sealed class ChangerBaseModelConverter : JsonConverter<ChangerBaseModel
                     ChangerFromToModel.ChangerType => new ChangerFromToModel()
                     {
                         Type = ChangerFromToModel.ChangerType,
-                        From = from,
-                        To = to
+                        From = from!,
+                        To = to!
                     },
                     ChangerReplaceModel.ChangerType => new ChangerReplaceModel()
                     {
                         Type = ChangerReplaceModel.ChangerType,
-                        Find = find
+                        Find = find!
                     },
                     _ => throw new NotSupportedException(type)
                 };

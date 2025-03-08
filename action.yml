@@ -1,9 +1,12 @@
-name: 'ChangeSet GitHub Action'
+name: 'ChangeSet'
 description: 'A tool for make changes to file contents'
 author: 'W4TR1X'
 branding:
-  icon: activity
-  color: orange
+  icon: terminal
+  color: purple
+runs:
+  using: 'node20'
+  main: 'index.js'
 inputs:
   dir:
     description:
@@ -15,13 +18,7 @@ inputs:
       'The config file path. Defaults to ./changeset.config.json'
     required: false
     default: './changeset.config.json'
-outputs:
-  summary:
+  pairs:
     description:
-      'The summary of action.'
-runs:
-  using: 'docker'
-  image: './src/ChangeSet/Dockerfile'
-  args:
-  - '-path=${{ inputs.dir }}'
-  - '-config=${{ inputs.config }}'
+      'Value pairs'
+    required: true
