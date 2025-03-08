@@ -1,0 +1,24 @@
+name: 'ChangeSet GitHub Action'
+description: 'A tool for make changes to file contents'
+author: 'W4TR1X'
+inputs:
+  dir:
+    description:
+      'The root directory to work from. Examples, "path/to/code".'
+    required: false
+    default: '/github/workspace'
+  config:
+    description:
+      'The config file path. Defaults to ./changeset.config.json'
+    required: false
+    default: './changeset.config.json'
+outputs:
+  summary:
+    description:
+      'The summary of action.'
+runs:
+  using: 'docker'
+  image: '/src/ChangeSet/Dockerfile'
+  args:
+  - '-path=${{ inputs.dir }}'
+  - '-config=${{ inputs.config }}'
