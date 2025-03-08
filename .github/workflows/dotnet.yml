@@ -29,7 +29,9 @@ jobs:
   
   generate_binaries:
     needs: build
+    timeout-minutes: 10    
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: "windows-latest"
