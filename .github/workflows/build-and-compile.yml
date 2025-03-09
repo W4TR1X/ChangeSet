@@ -1,4 +1,4 @@
-name: .NET
+name: Main
 
 on:
   push:
@@ -33,6 +33,34 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+  bundle-js:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build bundled JS file
+        run: |
+          npx @vercel/ncc build index.js -o . --minify
+          mv index.js index.bundle.js
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add index.bundle.js
+          git commit -m "Automated: Bundle index.js into index.bundle.js" || echo "No changes to commit"
+          git push
   
   binaries:
     needs: build
@@ -71,21 +99,10 @@ jobs:
         shell: pwsh
         run: pwsh -File ${{ matrix.script }} -Passthru
 
-      # - name: List files in output directory
-      #   run: pwsh -c "Get-ChildItem -Path $env:MATRIX_OUTPUT -Recurse"
-      #   env:
-      #     MATRIX_OUTPUT: ${{ matrix.output }}
-
-      - name: Commit files
+      - name: Commit and push changes
         run: |
-          git pull origin master
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           git add "${{ matrix.output }}"
-          git commit -a -m "Add binaries for ${{ matrix.osname }}"
-          
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
+          git commit -m "Add binaries for ${{ matrix.osname }}" || echo "No changes to commit"
+          git push
