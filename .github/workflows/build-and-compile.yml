@@ -43,11 +43,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Build bundled JS file
         run: |
