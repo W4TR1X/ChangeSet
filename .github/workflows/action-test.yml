@@ -2,6 +2,12 @@ name: Action Test
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+      description: 'Version'
+      type: string
+      required: true
+      default: 'v0.2.0-alpha'
 
 jobs:
   job:
@@ -13,6 +19,4 @@ jobs:
           dotnet-version: 9.0.200
               
       - name: ChangeSet GitHub Action
-        uses: W4TR1X/W4tr1x.ChangeSet@v0.3.0-alpha
-
-    
+        uses: W4TR1X/W4tr1x.ChangeSet@${{ inputs.version }}
