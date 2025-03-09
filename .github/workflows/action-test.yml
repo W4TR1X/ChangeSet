@@ -8,15 +8,19 @@ on:
         type: string
         required: true
         default: 'v0.2.0-alpha'
-
+        
 jobs:
   job:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v3.3.1
-        with:
-          dotnet-version: 9.0.200
-              
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        
       - name: ChangeSet GitHub Action
         uses: W4TR1X/W4tr1x.ChangeSet@${{ inputs.version }}
+        with:
+          #path: "" # For a inner path
+          config: "./src/ChangeSet/changeset.config.json"
+          pairs: |
+            "version=1.2.3"
+            "buildNumber=123321123"
