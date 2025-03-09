@@ -37,10 +37,10 @@ jobs:
         include:
           - os: "windows-latest"
             script: "build-windows.ps1"
-            output: "./dist/win-x64"
+            output: "{{ github.workspace }}/dist/win-x64"
           - os: "ubuntu-latest"
             script: "build-linux.ps1"
-            output: "dist/linux-x64"
+            output: "{{ github.workspace }}/dist/linux-x64"
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -67,11 +67,15 @@ jobs:
         run: pwsh -c "Get-ChildItem -Path $env:MATRIX_OUTPUT -Recurse"
         env:
           MATRIX_OUTPUT: ${{ matrix.output }}
+
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Add binaries"
           
-      - name: GitHub Push
+      - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
-          #directory: ${{ matrix.output }}
-          
