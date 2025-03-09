@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       version:
-      description: 'Version'
-      type: string
-      required: true
-      default: 'v0.2.0-alpha'
+        description: 'Version'
+        type: string
+        required: true
+        default: 'v0.2.0-alpha'
 
 jobs:
   job:
