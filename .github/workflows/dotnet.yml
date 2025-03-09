@@ -40,7 +40,7 @@ jobs:
             output: "./dist/win-x64"
           - os: "ubuntu-latest"
             script: "build-linux.ps1"
-            output: "./dist/linux-x64"
+            output: "dist/linux-x64"
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
