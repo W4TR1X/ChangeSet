@@ -1,5 +1,5 @@
 # Call Sample
-# sed -i 's/\r//g' .\run-action.ps1 && pwsh -File .\run-action.ps1 -config "./changeset.config.json" -pairs "-version=1010 -buildNumber=1235ee"
+# sed -i 's/\r//g' ./run-action.ps1 && pwsh -File ./run-action.ps1 -config "./changeset.config.json" -pairs "-version=1010 -buildNumber=1235ee"
 
 param (
 	[string]$path,
@@ -19,6 +19,7 @@ if ($config -eq "") {
 
 if ($config.startsWith("./")) {
 	$config = Join-Path $PSScriptRoot $config.Substring(2)
+	Write-Output "Normalize config path $config"
 }
 
 if ($IsWindows -eq $True) {
@@ -43,10 +44,9 @@ if ($filePath -eq $null) {
 	exit 1
 }
 
-Write-Output "Running $filePath..."
-$arguments = "-path=$path", "-config=$config", $pairs
-Write-Output $arguments
+$arguments = "-path='$path'", "-config='$config'", $pairs
 $command = "$filePath $arguments"
+Write-Output $command
 
 Invoke-Expression $command
 
