@@ -4,9 +4,6 @@ author: 'W4TR1X'
 branding:
   icon: terminal
   color: purple
-runs:
-  using: 'node20'
-  main: 'index.js'
 inputs:
   dir:
     description:
@@ -22,3 +19,6 @@ inputs:
     description:
       'Value pairs'
     required: true
+runs:
+  using: 'node20'
+  main: 'index.js'
