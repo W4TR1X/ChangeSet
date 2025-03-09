@@ -7,7 +7,9 @@ try {
   // GitHub Actions inputlarını al
   const path = core.getInput('path') ?? __dirname;
   const config = core.getInput('config') ?? __dirname + '/changeset.config.json';
-  const pairs = itemsString.split('\n').map(item => item.trim()).filter(Boolean);
+
+  const pairsString = core.getInput('pairs');
+  const pairs = pairsString.split('\n').map(item => item.trim()).filter(Boolean);  
   const joinedPairs = pairs.join(' ');
 
   // PowerShell betiğini parametrelerle çalıştır
