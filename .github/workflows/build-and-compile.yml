@@ -38,9 +38,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -49,6 +46,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Build bundled JS file
         run: |
           npx @vercel/ncc build index.js -o . --minify
@@ -56,6 +56,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git pull origin master
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add index.bundle.js
@@ -101,6 +102,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git pull origin master
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add "${{ matrix.output }}"
