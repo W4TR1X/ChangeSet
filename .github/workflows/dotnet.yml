@@ -36,44 +36,47 @@ jobs:
       matrix:
         include:
           - os: "windows-latest"
+            osname: "win-x64"
             script: "build-windows.ps1"
             output: "./dist/win-x64"
           - os: "ubuntu-latest"
+            osname: "linux-x64"
             script: "build-linux.ps1"
             output: "./dist/linux-x64"
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.200
 
-      - name: Fix file content
-        if: matrix.os != 'windows-latest'
-        run: sed -i 's/\r//g' ${{ matrix.script }}
-
       - name: Install PowerShell
         if: matrix.os != 'windows-latest'
         run: dotnet tool install --global PowerShell
-          
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Fix file content
+        if: matrix.os != 'windows-latest'
+        run: sed -i 's/\r//g' ${{ matrix.script }}
+      
       - name: PowerShell script
         shell: pwsh
         run: pwsh -File ${{ matrix.script }} -Passthru
 
-      - name: List files in output directory
-        run: pwsh -c "Get-ChildItem -Path $env:MATRIX_OUTPUT -Recurse"
-        env:
-          MATRIX_OUTPUT: ${{ matrix.output }}
+      # - name: List files in output directory
+      #   run: pwsh -c "Get-ChildItem -Path $env:MATRIX_OUTPUT -Recurse"
+      #   env:
+      #     MATRIX_OUTPUT: ${{ matrix.output }}
 
       - name: Commit files
         run: |
+          git pull origin master
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add "${{ matrix.output }}"
-          git commit -a -m "Add binaries"
+          git commit -a -m "Add binaries for ${{ matrix.osname }}"
           
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
