@@ -73,5 +73,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
-          directory: ${{ matrix.output }}
+          #directory: ${{ matrix.output }}
           
