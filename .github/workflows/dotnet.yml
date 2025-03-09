@@ -63,6 +63,11 @@ jobs:
         shell: pwsh
         run: pwsh -File ${{ matrix.script }} -Passthru
 
+      - name: List files in output directory
+        run: pwsh -c "Get-ChildItem -Path $env:MATRIX_OUTPUT -Recurse"
+        env:
+          MATRIX_OUTPUT: ${{ matrix.output }}
+          
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
         with:
