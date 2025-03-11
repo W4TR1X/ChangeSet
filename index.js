@@ -5,8 +5,8 @@ const ospath = require('path');
 
 try {
   // GitHub Actions inputlarını al
-  const path = core.getInput('path') ?? ospath;
-  const config = core.getInput('config') ?? ospath + '/changeset.config.json';
+  const path = core.getInput('path') ?? ".";
+  const config = core.getInput('config') ?? './changeset.config.json';
 
   const pairsString = core.getInput('pairs');
   const pairs = pairsString.split('\n').map(item => item.trim()).filter(Boolean);  
