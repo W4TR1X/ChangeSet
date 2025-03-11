@@ -4,18 +4,38 @@ const os = require('os');
 const ospath = require('path');
 
 try {
-  // GitHub Actions inputlarını al
-  const path = core.getInput('path') || process.env.GITHUB_WORKSPACE;
-  const config = core.getInput('config') || ospath.join(process.env.GITHUB_WORKSPACE, 'changeset.config.json');
+  const dir = process.env.GITHUB_WORKSPACE;
+  let path = core.getInput('path') || dir;
+  let config = core.getInput('config') || ospath.join(dir, 'changeset.config.json');
 
   const pairsString = core.getInput('pairs');
   const pairs = pairsString.split('\n').map(item => item.trim()).filter(Boolean);
   const joinedPairs = pairs.join(' ');
 
-  // PowerShell betiğini parametrelerle çalıştır
-  execSync(`pwsh -File "${ospath.join(__dirname, 'run-action.ps1')}" -path "${path}" -config "${config}" -pairs ${joinedPairs}`,
-    { stdio: 'inherit', shell: "pwsh", cwd: process.env.GITHUB_WORKSPACE }
-  );
+  if (config.startsWith('./')) {
+    config = ospath.join(dir, config.substring(2));
+    console.log(`Normalize config path: ${config}`);
+  }
+
+  let filePath;
+  if (os.platform() === 'win32') {
+    console.log('Running on Windows');
+    filePath = ospath.join(__dirname, 'dist', 'win-x64', 'ChangeSet.exe');
+  } else if (os.platform() === 'linux') {
+    console.log('Running on Linux');
+    filePath = ospath.join(__dirname, 'dist', 'linux-x64', 'ChangeSet');
+    execSync(`chmod +x "${filePath}"`);
+  } else if (os.platform() === 'darwin') {
+    console.log('Running on MacOS');
+    filePath = ospath.join(__dirname, 'dist', 'osx-x64', 'ChangeSet');
+    execSync(`chmod +x "${filePath}"`);
+  } else {
+    throw new Error('Unsupported OS');
+  }
+
+  const command = `"${filePath}" -path="${path}" -config="${config}" ${joinedPairs}`;
+  console.log(command);
+  execSync(command, { stdio: 'inherit' });
 }
 catch (err) {
   process.exitCode = 1;
