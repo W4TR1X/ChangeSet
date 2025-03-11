@@ -36,7 +36,7 @@ try {
   }
 
   const command = `"${filePath}" -path="${path}" -config="${config}" ${joinedPairs}`;
-  console.log(command);
+  // console.log(command);
   execSync(command, { stdio: 'inherit' });
 }
 catch (err) {
