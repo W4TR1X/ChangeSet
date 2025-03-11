@@ -18,16 +18,18 @@ try {
   }
 
   let filePath;
+  const actionPath = process.env.GITHUB_ACTION_PATH || __dirname;
+
   if (os.platform() === 'win32') {
     console.log('Running on Windows');
-    filePath = ospath.join(__dirname, 'dist', 'win-x64', 'ChangeSet.exe');
+    filePath = ospath.join(actionPath, 'dist', 'win-x64', 'ChangeSet.exe');
   } else if (os.platform() === 'linux') {
     console.log('Running on Linux');
-    filePath = ospath.join(__dirname, 'dist', 'linux-x64', 'ChangeSet');
+    filePath = ospath.join(actionPath, 'dist', 'linux-x64', 'ChangeSet');
     execSync(`chmod +x "${filePath}"`);
   } else if (os.platform() === 'darwin') {
     console.log('Running on MacOS');
-    filePath = ospath.join(__dirname, 'dist', 'osx-x64', 'ChangeSet');
+    filePath = ospath.join(actionPath, 'dist', 'osx-x64', 'ChangeSet');
     execSync(`chmod +x "${filePath}"`);
   } else {
     throw new Error('Unsupported OS');
