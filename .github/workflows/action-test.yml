@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4.2.2
         
       - name: ChangeSet GitHub Action
-        uses: W4TR1X/W4tr1x.ChangeSet@v0.2.0-alpha
+        uses: W4TR1X/W4tr1x.ChangeSet@v0.3.0-alpha
         with:
           #path: "" # For a inner path
           config: "./src/ChangeSet/changeset.config.json"
